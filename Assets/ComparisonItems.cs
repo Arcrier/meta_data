@@ -34,7 +34,6 @@ public class ComparisonItems : MonoBehaviour
     void Start()
     {
         csv = getCSVData();
-        setUpComparisons(donut);
     }
 
 

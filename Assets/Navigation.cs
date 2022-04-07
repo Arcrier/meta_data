@@ -16,6 +16,8 @@ public class Navigation : MonoBehaviour
 
     private XROrigin rig;
 
+    private SceneTransitionManager transMan;
+
 
     private float gravity = -9.81f;
     private float fallingSpeed;
@@ -27,6 +29,7 @@ public class Navigation : MonoBehaviour
     {
         character = GetComponent<CharacterController>();
         rig = GetComponent<XROrigin>();
+        transMan = this.GetComponent<SceneTransitionManager>();
     }
 
     // Update is called once per frame
@@ -41,7 +44,9 @@ public class Navigation : MonoBehaviour
         Quaternion headYaw = Quaternion.Euler(0, rig.Camera.transform.eulerAngles.y, 0);
         Vector3 direction = headYaw * new Vector3(inputAxis.x, 0, inputAxis.y);
 
-        character.Move(direction * Time.fixedDeltaTime * speed);
+        if (!transMan.otherRoom) {
+            character.Move(direction * Time.fixedDeltaTime * speed);
+        }
 
         //gravity
         bool isGrounded = checkIfGrounded();
@@ -49,7 +54,10 @@ public class Navigation : MonoBehaviour
             fallingSpeed = 0;
         else
             fallingSpeed += gravity * Time.fixedDeltaTime;
-        character.Move(Vector3.up * fallingSpeed * Time.fixedDeltaTime);
+        
+        if (!transMan.otherRoom) {
+            character.Move(Vector3.up * fallingSpeed * Time.fixedDeltaTime);
+        }
     }
 
     bool checkIfGrounded()
