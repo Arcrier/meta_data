@@ -9,6 +9,18 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine.UI;
 
+    public class ItemData : MonoBehaviour{
+        public Vector3 placedLocation;
+        public string storeName;
+        public string price;
+
+        public Vector3 getPlacedLocation()
+    {
+        return placedLocation;
+    }
+    }
+
+
 public class ComparisonItems : MonoBehaviour
 {
 
@@ -30,10 +42,13 @@ public class ComparisonItems : MonoBehaviour
             float price;
             int quantity;
             string quantityUnit;
+
+
         }
 
         public ComparisonFood[] comparisonFoods;
     }
+
 
     void Start()
     {
@@ -67,10 +82,12 @@ public class ComparisonItems : MonoBehaviour
             GameObject comparisonObject = Instantiate(prefab, transform);
             comparisonObject.transform.position -= new Vector3(0, 0, 0.75f);
             comparisonObject.transform.position += new Vector3(0, 0.15f, 0.375f * i);
+
             GameObject canvas = comparisonObject.GetNamedChild("Canvas");
             float price = 0;
             int quantity = 0;
             string quantityMeasure = "";
+            
             switch(obj.name)
             {
                 case "Donuts":
@@ -341,10 +358,26 @@ public class ComparisonItems : MonoBehaviour
                 default:
                     break;
             }
+
+            GameObject comparisonSubObject = Instantiate(obj, comparisonObject.transform);
+            comparisonSubObject.tag = "food";
+            comparisonSubObject.transform.localPosition = new Vector3(0, -0.15f, 0);
+            XRSimpleInteractable interactable = comparisonSubObject.GetComponent<XRSimpleInteractable>();
+            if (interactable != null)
+            {
+                Destroy(interactable);
+            }
+            comparisonSubObject.AddComponent<XRGrabInteractable>();
+            comparisonSubObject.AddComponent<ItemData>();
+
+            var data = comparisonSubObject.GetComponent<ItemData>();
+            data.placedLocation = comparisonSubObject.transform.position;
+            
             switch(i)
             {
                 case 0:
                     canvas.GetNamedChild("NameText").GetComponent<Text>().text = "Aldi";
+                    data.storeName = "Aldi";
                     canvas.GetNamedChild("PriceText").GetComponent<Text>().text = price.ToString("C2");
                     canvas.GetNamedChild("AmountText").GetComponent<Text>().text = quantity + " " + quantityMeasure;
                     canvas.GetNamedChild("PriceAmountText").GetComponent<Text>().text = (price / quantity).ToString("C2") + " / 1";
@@ -352,6 +385,7 @@ public class ComparisonItems : MonoBehaviour
                 case 1:
                     price -= price * 0.05f;
                     canvas.GetNamedChild("NameText").GetComponent<Text>().text = "Kroger";
+                    data.storeName = "Kroger";
                     canvas.GetNamedChild("PriceText").GetComponent<Text>().text = price.ToString("C2");
                     canvas.GetNamedChild("AmountText").GetComponent<Text>().text = quantity + " " + quantityMeasure;
                     canvas.GetNamedChild("PriceAmountText").GetComponent<Text>().text = (price / quantity).ToString("C2") + " / 1";
@@ -359,6 +393,7 @@ public class ComparisonItems : MonoBehaviour
                 case 2:
                     price += price * 0.2f;
                     canvas.GetNamedChild("NameText").GetComponent<Text>().text = "Trader Joe's";
+                    data.storeName = "Trader Joe's";
                     canvas.GetNamedChild("PriceText").GetComponent<Text>().text = price.ToString("C2");
                     canvas.GetNamedChild("AmountText").GetComponent<Text>().text = quantity + " " + quantityMeasure;
                     canvas.GetNamedChild("PriceAmountText").GetComponent<Text>().text = (price / quantity).ToString("C2") + " / 1";
@@ -374,6 +409,7 @@ public class ComparisonItems : MonoBehaviour
                         price += price * 0.1f;
                     }
                     canvas.GetNamedChild("NameText").GetComponent<Text>().text = "Publix";
+                    data.storeName = "Publix";
                     canvas.GetNamedChild("PriceText").GetComponent<Text>().text = price.ToString("C2");
                     canvas.GetNamedChild("AmountText").GetComponent<Text>().text = quantity + " " + quantityMeasure;
                     canvas.GetNamedChild("PriceAmountText").GetComponent<Text>().text = (price / quantity).ToString("C2") + " / 1";
@@ -381,20 +417,18 @@ public class ComparisonItems : MonoBehaviour
                 case 4:
                     price -= price * 0.1f;
                     canvas.GetNamedChild("NameText").GetComponent<Text>().text = "Walmart";
+                    data.storeName = "Walmart";
                     canvas.GetNamedChild("PriceText").GetComponent<Text>().text = price.ToString("C2");
                     canvas.GetNamedChild("AmountText").GetComponent<Text>().text = quantity + " " + quantityMeasure;
                     canvas.GetNamedChild("PriceAmountText").GetComponent<Text>().text = (price / quantity).ToString("C2") + " / 1";
                     break;
             }
+
+            data.price = price.ToString("C2");
             
-            GameObject comparisonSubObject = Instantiate(obj, comparisonObject.transform);
-            comparisonSubObject.transform.localPosition = new Vector3(0, -0.15f, 0);
-            XRSimpleInteractable interactable = comparisonSubObject.GetComponent<XRSimpleInteractable>();
-            if (interactable != null)
-            {
-                Destroy(interactable);
-            }
-            comparisonSubObject.AddComponent<XRGrabInteractable>();
+
+
+
         }
     }
 }
