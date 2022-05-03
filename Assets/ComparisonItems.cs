@@ -9,15 +9,16 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine.UI;
 
-    public class ItemData : MonoBehaviour{
+    public class ItemData : MonoBehaviour
+    {
         public Vector3 placedLocation;
         public string storeName;
-        public string price;
+        public float price;
 
         public Vector3 getPlacedLocation()
-    {
-        return placedLocation;
-    }
+        {
+            return placedLocation;
+        }
     }
 
 
@@ -424,7 +425,7 @@ public class ComparisonItems : MonoBehaviour
                     break;
             }
 
-            data.price = price.ToString("C2");
+            data.price = price;
             
 
 

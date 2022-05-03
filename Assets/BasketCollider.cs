@@ -18,18 +18,19 @@ void OnCollisionEnter (Collision collisionInfo){
 
             obj.transform.position = itemData.getPlacedLocation();
 
-            var myName = obj.name.Substring(0,obj.name.Length-7);
-            Debug.Log(itemData.price);
-
             GameObject cart = GameObject.Find("CartCanvas");
-          
+
+            /*var myName = obj.name.Substring(0,obj.name.Length-7);
+            Debug.Log(itemData.price);         
 
             GameObject newCartItem = Instantiate(prefab, cart.transform);
             Debug.Log(cart.transform.childCount);
             newCartItem.GetComponent<RectTransform>().localPosition -= new Vector3(0, (200 * (cart.transform.childCount-3)), 0);
 
             newCartItem.transform.GetChild(0).gameObject.GetComponent<Text>().text = itemData.storeName + " " + myName;
-            newCartItem.transform.GetChild(1).gameObject.GetComponent<Text>().text = itemData.price;
+            newCartItem.transform.GetChild(1).gameObject.GetComponent<Text>().text = itemData.price;*/
+
+            cart.GetComponent<MenuTracker>().addItem(obj, prefab);
 
 
 
