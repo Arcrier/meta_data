@@ -24,6 +24,8 @@ public class MenuTracker : MonoBehaviour
 
     Dictionary<string, MenuItem> menuItems;
 
+    public GameObject menuItemPrefab;
+
     void Start()
     {
         menuItems = new Dictionary<string, MenuItem>();
@@ -36,56 +38,73 @@ public class MenuTracker : MonoBehaviour
 
         var myName = itemData.storeName + " " +  obj.name.Substring(0, obj.name.Length - 7);
 
+        
+
         if (!menuItems.ContainsKey(myName))
         {
             Debug.Log("New");
             menuItems[myName] = new MenuItem(1, transform.childCount, itemData.price);
-            GameObject newCartItem = Instantiate(prefab, transform);
-            newCartItem.GetComponent<RectTransform>().localPosition -= new Vector3(0, (200 * (gameObject.transform.childCount - 7)), 0);
-
-            newCartItem.transform.GetChild(0).gameObject.GetComponent<Text>().text = myName;
-            newCartItem.transform.GetChild(1).gameObject.GetComponent<Text>().text = itemData.price.ToString("C2");
-            newCartItem.transform.GetChild(2).GetChild(0).GetComponent<prefabButtonInteracteable>().myName = myName;
-            newCartItem.transform.GetChild(3).GetChild(0).GetComponent<prefabButtonInteracteable>().myName = myName;
-
         }
         else
         {
-            Debug.Log("Not new");
             MenuItem myItem = menuItems[myName];
             myItem.amount += 1;
-            transform.GetChild(myItem.childIndex).GetChild(0).gameObject.GetComponent<Text>().text = myName + " x" + myItem.amount;
-            transform.GetChild(myItem.childIndex).GetChild(1).gameObject.GetComponent<Text>().text = (itemData.price * myItem.amount).ToString("C2");
         }
-
+        regenMenu();
         updateTotal();
     }
 
     public void addQuantity(string myName)
     {
-        Debug.Log("Not new");
-        MenuItem myItem = menuItems[myName];
-        myItem.amount += 1;
-        transform.GetChild(myItem.childIndex).GetChild(0).gameObject.GetComponent<Text>().text = myName + " x" + myItem.amount;
-        transform.GetChild(myItem.childIndex).GetChild(1).gameObject.GetComponent<Text>().text = (myItem.price * myItem.amount).ToString("C2");
+        if (menuItems.ContainsKey(myName)) {
+            MenuItem myItem = menuItems[myName];
+            myItem.amount += 1;
+        }
+        regenMenu();
         updateTotal();
     }
 
     public void removeQuantity(string myName)
     {
-        Debug.Log("Not new");
-        MenuItem myItem = menuItems[myName];
-        myItem.amount -= 1;
-        transform.GetChild(myItem.childIndex).GetChild(0).gameObject.GetComponent<Text>().text = myName + " x" + myItem.amount;
-        transform.GetChild(myItem.childIndex).GetChild(1).gameObject.GetComponent<Text>().text = (myItem.price * myItem.amount).ToString("C2");
+        if (menuItems.ContainsKey(myName)) {
+            MenuItem myItem = menuItems[myName];
+            myItem.amount -= 1;
 
-        if (myItem.amount < 1)
-        {
-            Destroy(transform.GetChild(myItem.childIndex).gameObject);
-            menuItems.Remove(myName);
+            if (myItem.amount < 1)
+            {
+                menuItems.Remove(myName);
+            }
         }
-
+        
+        regenMenu();
         updateTotal();
+    }
+
+    private void regenMenu() 
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (i > 3)
+            {
+                Destroy(transform.GetChild(i).gameObject);
+            }
+        }
+        int offset = 0;
+        foreach (KeyValuePair<string, MenuItem> entry in menuItems)
+        {
+            GameObject newCartItem = Instantiate(menuItemPrefab, transform);
+            newCartItem.GetComponent<RectTransform>().localPosition = Vector3.zero + new Vector3(200, 1273, 0);
+            
+            
+            newCartItem.GetComponent<RectTransform>().localPosition += new Vector3(0, offset, 0);
+            offset -= 500;
+            
+
+            newCartItem.transform.GetChild(0).gameObject.GetComponent<Text>().text = entry.Key + " x" + entry.Value.amount;
+            newCartItem.transform.GetChild(1).gameObject.GetComponent<Text>().text = (entry.Value.price * entry.Value.amount).ToString("C2");
+            newCartItem.transform.GetChild(2).GetChild(0).GetComponent<prefabButtonInteracteable>().myName = entry.Key;
+            newCartItem.transform.GetChild(3).GetChild(0).GetComponent<prefabButtonInteracteable>().myName = entry.Key;
+        }
     }
 
     private void updateTotal()

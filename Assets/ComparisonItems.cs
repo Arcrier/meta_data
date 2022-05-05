@@ -136,27 +136,27 @@ public class ComparisonItems : MonoBehaviour
                     quantity = 12;
                     quantityMeasure = "cans";
                     break;
-                case "Coke (1)":
+                case "Diet Coke":
                     price = 3.99f;
                     quantity = 6;
                     quantityMeasure = "cans";
                     break;
-                case "Pepsi (4)":
+                case "Diet Pepsi":
                     price = 3.99f;
                     quantity = 6;
                     quantityMeasure = "cans";
                     break;
-                case "Pepsi (1)":
+                case "Mountain Dew":
                     price = 6.99f;
                     quantity = 12;
                     quantityMeasure = "cans";
                     break;
-                case "Pepsi (2)":
+                case "Fresca":
                     price = 5.49f;
                     quantity = 12;
                     quantityMeasure = "cans";
                     break;
-                case "Pepsi (3)":
+                case "Club Soda":
                     price = 4.99f;
                     quantity = 12;
                     quantityMeasure = "cans";
@@ -171,15 +171,15 @@ public class ComparisonItems : MonoBehaviour
                     quantity = 12;
                     quantityMeasure = "tacos";
                     break;
-                case "Steak_Uncooked":
+                case "Steak":
                     price = 18.82f;
                     quantity = 2;
                     quantityMeasure = "lb";
                     break;
-                case "Steak_Cooked":
+                case "Hamburger Patty":
                     price = 25.49f;
                     quantity = 32;
-                    quantityMeasure = "patties";
+                    quantityMeasure = "lb";
                     break;
                 case "Shrimp":
                     price = 6.99f;
@@ -201,7 +201,7 @@ public class ComparisonItems : MonoBehaviour
                     quantity = 56;
                     quantityMeasure = "oz";
                     break;
-                case "MeatBall":
+                case "Meatball Skewer":
                     price = 12.50f;
                     quantity = 10;
                     quantityMeasure = "skewer";
@@ -281,10 +281,10 @@ public class ComparisonItems : MonoBehaviour
                     quantity = 56;
                     quantityMeasure = "oz";
                     break;
-                case "Eclair_Chocolate":
+                case "Chocolate Eclair":
                     price = 12.50f;
-                    quantity = 10;
-                    quantityMeasure = "skewer";
+                    quantity = 12;
+                    quantityMeasure = "oz";
                     break;
                 case "Bread":
                     price = 4.24f;
@@ -293,45 +293,45 @@ public class ComparisonItems : MonoBehaviour
                     break;
                 case "Toast":
                     price = 2.58f;
-                    quantity = 6;
-                    quantityMeasure = "hot dog";
+                    quantity = 1;
+                    quantityMeasure = "";
                     break;
-                case "Pizza2":
-                    price = 6.79f;
-                    quantity = 5;
-                    quantityMeasure = "lb";
+                case "Pizza Slice":
+                    price = 2.49f;
+                    quantity = 1;
+                    quantityMeasure = "";
                     break;
-                case "IceCream_Cone":
+                case "Ice Cream Cone":
                     price = 1.48f;
                     quantity = 1;
-                    quantityMeasure = "pepper";
+                    quantityMeasure = "";
                     break;
                 case "Muffin":
                     price = 1.67f;
                     quantity = 1;
-                    quantityMeasure = "head";
+                    quantityMeasure = "";
                     break;
-                case "IceCreamPop":
+                case "Ice Cream Pop":
                     price = 0.64f;
-                    quantity = 1;
-                    quantityMeasure = "pepper";
+                    quantity = 12;
+                    quantityMeasure = "oz";
                     break;
-                case "Cheese_01":
+                case "Cheese Wheel":
                     price = 3.99f;
                     quantity = 12;
                     quantityMeasure = "oz";
                     break;
                 case "Gyoza":
                     price = 2.34f;
-                    quantity = 1;
-                    quantityMeasure = "coconut";
+                    quantity = 4;
+                    quantityMeasure = "pieces";
                     break;
-                case "Cheese_02":
+                case "Swiss Cheese":
                     price = 3.82f;
                     quantity = 1;
-                    quantityMeasure = "watermelon";
+                    quantityMeasure = "wedge";
                     break;
-                case "Rice_Bowl":
+                case "Rice Bowl":
                     price = 1.91f;
                     quantity = 1;
                     quantityMeasure = "lb";
@@ -339,22 +339,22 @@ public class ComparisonItems : MonoBehaviour
                 case "Sushi":
                     price = 1.99f;
                     quantity = 1;
-                    quantityMeasure = "pineapple";
+                    quantityMeasure = "piece";
                     break;
                 case "Onigiri":
                     price = 1.99f;
-                    quantity = 3;
-                    quantityMeasure = "lb";
+                    quantity = 8;
+                    quantityMeasure = "oz";
                     break;
                 case "Mochi":
                     price = 1.69f;
-                    quantity = 3;
-                    quantityMeasure = "lb";
+                    quantity = 8;
+                    quantityMeasure = "oz";
                     break;
                 case "Maki":
                     price = 1.43f;
                     quantity = 1;
-                    quantityMeasure = "avocado";
+                    quantityMeasure = "roll";
                     break;
                 default:
                     break;
@@ -363,6 +363,8 @@ public class ComparisonItems : MonoBehaviour
             GameObject comparisonSubObject = Instantiate(obj, comparisonObject.transform);
             comparisonSubObject.tag = "food";
             comparisonSubObject.transform.localPosition = new Vector3(0, -0.15f, 0);
+            comparisonSubObject.transform.localScale = Vector3.Scale(comparisonSubObject.transform.localScale, new Vector3(0.5f, 0.5f, 0.5f));
+
             XRSimpleInteractable interactable = comparisonSubObject.GetComponent<XRSimpleInteractable>();
             if (interactable != null)
             {

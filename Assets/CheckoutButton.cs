@@ -6,6 +6,7 @@ public class CheckoutButton : MonoBehaviour
 {
     public void checkout()
     {
+        Debug.Log("Checkout");
         Application.Quit();
     }
 }
